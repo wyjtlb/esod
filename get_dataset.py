@@ -4,8 +4,8 @@ import os
 # 1. 指向你存放图片的【绝对路径】或【相对路径】
 dataset_path = '/kaggle/working/esod/'
 # 2. 训练集和验证集的文件夹名称
-train_folder = 'train/images'
-val_folder = 'val/images'
+train_folder = 'images/train'
+val_folder = 'images/val'
 # 3. 输出的文本文件名
 train_out = 'train.txt'
 val_out = 'val.txt'

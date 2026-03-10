@@ -1,0 +1,9 @@
+path: /kaggle/working/esod/YOLODataset
+train: /kaggle/working/esod/YOLODataset/images/train
+val: /kaggle/working/esod/YOLODataset/images/val
+test:
+
+nc: 1
+
+names:
+    0: orange

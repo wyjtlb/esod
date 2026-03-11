@@ -353,7 +353,7 @@ class LoadStreams:  # multiple IP or RTSP cameras
 
 def img2label_paths(img_paths):
     label_paths = []
-
+#
     for x in img_paths:
 
         p = Path(x)

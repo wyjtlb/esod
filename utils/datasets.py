@@ -594,17 +594,17 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
  
         tb = time.time()
         # print(f'Data: {tb - ta:.3f}s')
-        return torch.from_numpy(img), labels_out, torch.from_numpy(mask), torch.from_numpy(weight), self.img_files[index], shapes
-        # return torch.from_numpy(img), labels_out, self.img_files[index], shapes
+        # return torch.from_numpy(img), labels_out, torch.from_numpy(mask), torch.from_numpy(weight), self.img_files[index], shapes
+        return torch.from_numpy(img), labels_out, self.img_files[index], shapes
 
     @staticmethod
     def collate_fn(batch):
-        img, label, mask, weight, path, shapes = zip(*batch)  # transposed
-        # img, label, path, shapes = zip(*batch)  # transposed
+        # img, label, mask, weight, path, shapes = zip(*batch)  # transposed
+        img, label, path, shapes = zip(*batch)  # transposed
         for i, l in enumerate(label):
             l[:, 0] = i  # add target image index for build_targets()
-        return torch.stack(img), torch.cat(label), torch.stack(mask), torch.stack(weight), path, shapes
-        # return torch.stack(img, 0), torch.cat(label, 0), path, shapes
+        # return torch.stack(img), torch.cat(label), torch.stack(mask), torch.stack(weight), path, shapes
+        return torch.stack(img, 0), torch.cat(label, 0), path, shapes
 
     @staticmethod
     def collate_fn4(batch):

@@ -2,7 +2,7 @@ import os
 
 # ================= 配置区域 =================
 # 1. 指向你存放图片的【绝对路径】或【相对路径】
-dataset_path = '/kaggle/working/esod/'
+dataset_path = '/kaggle/working/esod/YOLODataset'
 # 2. 训练集和验证集的文件夹名称
 train_folder = 'images/train'
 val_folder = 'images/val'

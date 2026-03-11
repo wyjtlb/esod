@@ -352,9 +352,22 @@ class LoadStreams:  # multiple IP or RTSP cameras
 
 
 def img2label_paths(img_paths):
-    # Define label paths as a function of image paths
-    sa, sb = os.sep + 'images' + os.sep, os.sep + 'labels' + os.sep  # /images/, /labels/ substrings
-    return ['txt'.join(x.replace(sa, sb, 1).rsplit(x.split('.')[-1], 1)) for x in img_paths]
+    label_paths = []
+
+    for x in img_paths:
+
+        p = Path(x)
+
+        if "images" in p.parts:
+            parts = list(p.parts)
+            parts[parts.index("images")] = "labels"
+            label = Path(*parts).with_suffix(".txt")
+        else:
+            label = p.with_suffix(".txt")
+
+        label_paths.append(str(label))
+
+    return label_paths
 
 
 class LoadImagesAndLabels(Dataset):  # for training/testing
@@ -594,17 +607,17 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
  
         tb = time.time()
         # print(f'Data: {tb - ta:.3f}s')
-        # return torch.from_numpy(img), labels_out, torch.from_numpy(mask), torch.from_numpy(weight), self.img_files[index], shapes
-        return torch.from_numpy(img), labels_out, self.img_files[index], shapes
+        return torch.from_numpy(img), labels_out, torch.from_numpy(mask), torch.from_numpy(weight), self.img_files[index], shapes
+        # return torch.from_numpy(img), labels_out, self.img_files[index], shapes
 
     @staticmethod
     def collate_fn(batch):
-        # img, label, mask, weight, path, shapes = zip(*batch)  # transposed
-        img, label, path, shapes = zip(*batch)  # transposed
+        img, label, mask, weight, path, shapes = zip(*batch)  # transposed
+        # img, label, path, shapes = zip(*batch)  # transposed
         for i, l in enumerate(label):
             l[:, 0] = i  # add target image index for build_targets()
-        # return torch.stack(img), torch.cat(label), torch.stack(mask), torch.stack(weight), path, shapes
-        return torch.stack(img, 0), torch.cat(label, 0), path, shapes
+        return torch.stack(img), torch.cat(label), torch.stack(mask), torch.stack(weight), path, shapes
+        # return torch.stack(img, 0), torch.cat(label, 0), path, shapes
 
     @staticmethod
     def collate_fn4(batch):
